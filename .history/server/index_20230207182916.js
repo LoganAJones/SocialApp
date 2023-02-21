@@ -27,7 +27,6 @@ const app = express();
 app.use(express.json())
 app.use(helmet())
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
-app.use(morgan("common"))
 app.use(bodyParser.json({ limit: "30mb", extended: true}))
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}))
 app.use(cors())
@@ -54,7 +53,6 @@ app.post("/posts/", verifyToken, upload.single("picture"), createPost)
 app.use("/auth", authRoutes)
 app.use("/users", userRoutes)
 app.use("/posts", postRoutes)
-
 //mongoose setup
 const PORT = process.env.PORT || 6001
 mongoose.connect(process.env.MONGO_URL, {
@@ -62,9 +60,5 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true,
 }).then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`))
-
-    // DO ONCE
-    //User.insertMany(users)
-    // Post.insertMany(posts)
 })
 .catch((error) => console.log(`${error} did not connect`))
